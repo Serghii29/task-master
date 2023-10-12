@@ -18,18 +18,6 @@ export const tryCatch =
     }
   };
 
-// export const isExist =
-//   (service: ) => async (req: Request, res: Response, next: NextFunction) => {
-//     const { id } = req.params;
-//     const exists = await service.findTodoById(+id);
-
-//     if (exists) {
-//       next();
-//     } else {
-//       res.status(404).json({ error: 'Data not found' });
-//     }
-//   };
-
 export interface ServiceWithFindById<T> {
   findById(id: number): Promise<T | null>;
 }
