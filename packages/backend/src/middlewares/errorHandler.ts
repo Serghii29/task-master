@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 import { isHttpError } from 'http-errors';
-import TodoService from '../services/todo.service';
 
 export const tryCatch =
   (callback: (req: Request, res: Response, next: NextFunction) => Promise<void>) =>
@@ -19,10 +18,27 @@ export const tryCatch =
     }
   };
 
+// export const isExist =
+//   (service: ) => async (req: Request, res: Response, next: NextFunction) => {
+//     const { id } = req.params;
+//     const exists = await service.findTodoById(+id);
+
+//     if (exists) {
+//       next();
+//     } else {
+//       res.status(404).json({ error: 'Data not found' });
+//     }
+//   };
+
+export interface ServiceWithFindById<T> {
+  findById(id: number): Promise<T | null>;
+}
+
 export const isExist =
-  (service: TodoService) => async (req: Request, res: Response, next: NextFunction) => {
+  <T>(service: ServiceWithFindById<T>) =>
+  async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const exists = await service.findTodoById(+id);
+    const exists = await service.findById(+id);
 
     if (exists) {
       next();

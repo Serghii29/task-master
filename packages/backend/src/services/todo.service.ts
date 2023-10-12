@@ -11,7 +11,7 @@ export default class TodoService {
     return allTodos;
   }
 
-  async findTodoById(id: number): Promise<Todo | null> {
+  async findById(id: number): Promise<Todo | null> {
     const todo = await this.todoRepository.findOneBy({ id });
 
     return todo;
@@ -32,7 +32,7 @@ export default class TodoService {
   }
 
   async deleteTodo(id: number): Promise<Todo | null> {
-    const findTodo = await this.findTodoById(id);
+    const findTodo = await this.findById(id);
 
     if (findTodo) {
       await this.todoRepository.remove(findTodo);
@@ -41,3 +41,5 @@ export default class TodoService {
     return findTodo;
   }
 }
+
+export const todoService = new TodoService();

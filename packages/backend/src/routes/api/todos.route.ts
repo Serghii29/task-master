@@ -4,10 +4,10 @@ import { validate } from '../../middlewares/validator';
 import { todoAddSchema, todoUpdateSchema } from '../../validateSchema/todoSchema';
 
 import todoController from '../../controllers/todo.controller';
-import TodoService from '../../services/todo.service';
+import { todoService } from '../../services/todo.service';
 
 const todosRouter: Router = Router();
-const todoService = new TodoService();
+// const todoService = new TodoService();
 
 todosRouter.get('', tryCatch(todoController.getAllTodo.bind(todoController)));
 

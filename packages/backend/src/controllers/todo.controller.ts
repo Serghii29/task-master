@@ -12,7 +12,7 @@ export class TodoController {
   async getTodoById(req: Request, res: Response) {
     const { id } = req.params;
 
-    const todo = await this.todoService.findTodoById(+id);
+    const todo = await this.todoService.findById(+id);
 
     res.json(todo);
   }
