@@ -8,10 +8,12 @@ export const STORAGE_KEYS = {
 
 // React-query keys
 export const QUERY_KEYS = {
-  EXAMPLE: 'EXAMPLE',
   TOKEN: 'TOKEN',
-  STATISTIC: 'statistic',
-  TRENDING: 'trending'
+  TODOS: 'todos',
+  TODO: 'todo',
+  DELETE: 'delete todo',
+  CREATE: 'create todo',
+  UPDATE: 'update todo'
 };
 
 // Backend Routes
@@ -27,5 +29,6 @@ export const BACKEND_KEYS = {
 export const ROUTER_KEYS = {
   ROOT: '/',
   HOME: 'home',
-  AUTHORIZED: 'authorized'
+  AUTHORIZED: 'authorized',
+  TODO: 'todo'
 };
