@@ -3,10 +3,11 @@ import express, { NextFunction, Request, Response } from 'express';
 import 'dotenv/config';
 import cors from 'cors';
 import createHttpError from 'http-errors';
+import cookieParser from 'cookie-parser';
 
 import AppRouter from './routes';
 import connectDB from './config/database';
-import { handlerError } from './middlewares/errorHandler';
+import { handlerError } from './middlewares/errorHandler.middleware';
 
 const app = express();
 const router = new AppRouter(app);
@@ -16,6 +17,7 @@ connectDB();
 // Express configuration
 app.set('port', process.env.PORT || 4200);
 app.use(cors());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

@@ -1,11 +1,10 @@
 import { Todo } from '../entities/Todo';
-import { ITodo } from '../types/todos.type';
 import { AppSource } from '../config/database';
 
 export default class TodoService {
   private todoRepository = AppSource.getRepository(Todo);
 
-  async findAllTodos(): Promise<ITodo[]> {
+  async findAllTodos(): Promise<Todo[]> {
     const allTodos = await this.todoRepository.find();
 
     return allTodos;
@@ -17,7 +16,7 @@ export default class TodoService {
     return todo;
   }
 
-  async createTodo(data: ITodo): Promise<ITodo> {
+  async createTodo(data: Todo): Promise<Todo> {
     const newTodo = await this.todoRepository.create({ ...data }).save();
 
     return newTodo;
@@ -31,14 +30,12 @@ export default class TodoService {
     return updatedTodo;
   }
 
-  async deleteTodo(id: number): Promise<Todo | null> {
+  async deleteTodo(id: number): Promise<void> {
     const findTodo = await this.findById(id);
 
     if (findTodo) {
       await this.todoRepository.remove(findTodo);
     }
-
-    return findTodo;
   }
 }
 

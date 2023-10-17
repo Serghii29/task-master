@@ -14,7 +14,7 @@ export class TodoController {
 
     const todo = await this.todoService.findById(+id);
 
-    res.json(todo);
+    res.status(200).json(todo);
   }
 
   async createTodo(req: Request, res: Response) {

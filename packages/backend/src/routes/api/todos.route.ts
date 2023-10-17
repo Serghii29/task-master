@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import { isExist, tryCatch } from '../../middlewares/errorHandler';
-import { validate } from '../../middlewares/validator';
+import { authMiddleware } from '../../middlewares/auth.middleware';
+import { isExist, tryCatch } from '../../middlewares/errorHandler.middleware';
+import { validate } from '../../middlewares/validator.middleware';
 import { todoAddSchema, todoUpdateSchema } from '../../validateSchema/todoSchema';
 
 import todoController from '../../controllers/todo.controller';
 import { todoService } from '../../services/todo.service';
 
 const todosRouter: Router = Router();
-// const todoService = new TodoService();
 
-todosRouter.get('', tryCatch(todoController.getAllTodo.bind(todoController)));
+todosRouter.get('', authMiddleware, tryCatch(todoController.getAllTodo.bind(todoController)));
 
 todosRouter.get(
   '/:id',
