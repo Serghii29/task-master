@@ -4,16 +4,11 @@ import { useTodo } from '../hooks/useTodo';
 import { useUpdate } from '../hooks/useUpdate';
 import { ICreateTodo, ITodo, IUpdateTodo } from '../../common/types/todo.types';
 import { addFormSchema, updateFormSchema } from './validatorForm';
+import { INITIAL_VALUE } from '../const/initial-values.const';
 
 export const createForm = (add: boolean, id?: number) => {
   const validationSchema = add ? addFormSchema : updateFormSchema;
-
-  const initialValues = {
-    title: '',
-    description: '',
-    isPublic: false,
-    completed: false
-  };
+  const initialValues = { ...INITIAL_VALUE };
 
   if (id) {
     const { data: todo } = useTodo(id);

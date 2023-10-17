@@ -13,12 +13,14 @@ interface HttpError {
   message: string;
 }
 
+const { SERVER_URL } = process.env;
+
 export class HttpSerivce {
   private baseUrl: string | undefined;
 
   private axiosInstance: AxiosInstance;
 
-  constructor(baseUrl = 'http://localhost:4200') {
+  constructor(baseUrl = SERVER_URL) {
     this.baseUrl = baseUrl;
     this.axiosInstance = axios.create({
       timeout: 5000
