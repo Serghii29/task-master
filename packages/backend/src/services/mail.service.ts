@@ -1,25 +1,25 @@
 import nodeMailer from 'nodemailer';
 
 class MailService {
-  transporter: any;
+  transporter;
 
   constructor() {
     this.transporter = nodeMailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
       secure: false,
       auth: {
-        user: 'sedruk7@gmail.com',
-        pass: 'rootroot4'
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD
       }
     });
   }
 
   async sendActivate(mail: string, link: string) {
-    const activateLink = `http://localhost:4200/api/auth/activate/${link}`;
+    const activateLink = `${process.env.SERVER_URL}/auth/activate/${link}`;
 
     await this.transporter.sendMail({
-      from: 'sedruk7@gmail.com',
+      from: process.env.SMTP_USER,
       to: mail,
       subject: 'Activate profile',
       text: '',

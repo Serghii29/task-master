@@ -1,4 +1,5 @@
 import * as argon from 'argon2';
+import UserDto from 'src/dtos/user.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { AppSource } from '../config/database';
 import { User } from '../entities/User';
@@ -8,7 +9,7 @@ import { tokenService } from './token.service';
 export default class AuthSevices {
   private userRepository = AppSource.getRepository(User);
 
-  async registrationUser(data: User): Promise<User | any> {
+  async registrationUser(data: User) {
     const { email, password } = data;
 
     const candidate = await this.userRepository.findOneBy({ email });
@@ -25,13 +26,15 @@ export default class AuthSevices {
       .create({ email, password: hashPassword, activationLink })
       .save();
 
-    const tokens = tokenService.generateTokens(email);
+    const userDto = new UserDto(newUser);
+
+    const tokens = tokenService.generateTokens(userDto);
 
     await tokenService.saveToken(newUser.id, tokens.refreshToken);
 
     await mailService.sendActivate(email, activationLink);
 
-    return { ...tokens, newUser };
+    return { ...tokens, user: userDto };
   }
 
   async activate(activationLink: string) {
@@ -59,11 +62,13 @@ export default class AuthSevices {
       throw new Error('This password id not valid');
     }
 
-    const tokens = tokenService.generateTokens(email);
+    const userDto = new UserDto(user);
+
+    const tokens = tokenService.generateTokens(userDto);
 
     await tokenService.saveToken(user.id, tokens.refreshToken);
 
-    return { ...tokens, user };
+    return { ...tokens, user: userDto };
   }
 
   async logout(refreshToken: string) {
@@ -72,6 +77,44 @@ export default class AuthSevices {
     if (user) {
       await this.userRepository.update(user.id, { refreshToken: '' });
     }
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.userRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new Error('This user not found');
+    }
+
+    const userDto = new UserDto(user);
+
+    const activationLink = uuidv4();
+
+    const tokens = tokenService.generateTokens(userDto);
+
+    await tokenService.saveToken(user.id, tokens.refreshToken);
+
+    await mailService.sendActivate(email, activationLink);
+
+    return { ...tokens, user: userDto };
+  }
+
+  async resetPassword(email: string, newPassword: string) {
+    const user = await this.userRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new Error('This user not found');
+    }
+
+    const userDto = new UserDto(user);
+
+    const tokens = tokenService.generateTokens(userDto);
+
+    await tokenService.saveToken(user.id, tokens.refreshToken);
+
+    await this.userRepository.update(user.id, { password: newPassword });
+
+    return { ...tokens, user: userDto };
   }
 }
 

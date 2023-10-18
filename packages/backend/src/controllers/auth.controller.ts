@@ -15,7 +15,10 @@ class AuthController {
 
     const userData = await this.authServices.registrationUser(data);
 
-    res.cookie('refreshToken', userData.refreshToken, {});
+    res.cookie('refreshToken', userData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true
+    });
 
     res.status(201).json(userData);
   }
@@ -25,7 +28,12 @@ class AuthController {
 
     const userData = await this.authServices.loginUser(data);
 
-    res.cookie('refreshToken', userData.refreshToken, {});
+    res.cookie('refreshToken', userData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true
+    });
+
+    res.status(201).json(userData);
 
     res.json(userData);
   }
@@ -45,7 +53,39 @@ class AuthController {
 
     await this.authServices.activate(activateLink);
 
-    res.redirect('http://localhost:3000');
+    res.redirect(process.env.CLIENT_URL);
+  }
+
+  async forgotPassword(req: Request, res: Response) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors });
+    }
+
+    const { email } = req.body;
+
+    const userData = await this.authServices.forgotPassword(email);
+
+    res.cookie('refreshToken', userData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true
+    });
+
+    res.status(201).json(userData);
+  }
+
+  async reset(req: Request, res: Response) {
+    const { email, newPassword } = req.body;
+
+    const userData = await this.authServices.resetPassword(email, newPassword);
+
+    res.cookie('refreshToken', userData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true
+    });
+
+    res.status(201).json(userData);
   }
 }
 

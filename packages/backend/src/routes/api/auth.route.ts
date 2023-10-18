@@ -19,4 +19,16 @@ authRoute.post('/loguot', tryCatch(authController.logout.bind(authController)));
 
 authRoute.get('/activate/:link', tryCatch(authController.activate.bind(authController)));
 
+authRoute.post(
+  '/forgot-password',
+  [body('email').isEmail()],
+  tryCatch(authController.forgotPassword.bind(authController))
+);
+
+authRoute.post(
+  'reset-password',
+  [body('email').isEmail()],
+  tryCatch(authController.reset.bind(authController))
+);
+
 export default authRoute;
