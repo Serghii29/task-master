@@ -7,9 +7,10 @@ class TokenService {
   private userRepository = AppSource.getRepository(User);
 
   generateTokens(payload: UserDto) {
+    const newPayload = { ...payload };
     const expiresInSeconds = 30 * 24 * 60 * 60 * 1000; // 30 days
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
-    const refreshToken = jwt.sign(payload, process.env.JWT_EXPIRATION, {
+    const accessToken = jwt.sign(newPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const refreshToken = jwt.sign(newPayload, process.env.JWT_EXPIRATION, {
       expiresIn: expiresInSeconds
     });
 

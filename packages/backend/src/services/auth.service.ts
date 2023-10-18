@@ -1,6 +1,6 @@
 import * as argon from 'argon2';
-import UserDto from 'src/dtos/user.dto';
 import { v4 as uuidv4 } from 'uuid';
+import UserDto from '../dtos/user.dto';
 import { AppSource } from '../config/database';
 import { User } from '../entities/User';
 import { mailService } from './mail.service';
@@ -44,7 +44,7 @@ export default class AuthSevices {
       throw new Error('incorrect activation link');
     }
 
-    await this.userRepository.update(user.id, { activationLink });
+    await this.userRepository.update(user.id, { isActivated: true });
   }
 
   async loginUser(data: User) {

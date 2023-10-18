@@ -34,8 +34,6 @@ class AuthController {
     });
 
     res.status(201).json(userData);
-
-    res.json(userData);
   }
 
   async logout(req: Request, res: Response) {

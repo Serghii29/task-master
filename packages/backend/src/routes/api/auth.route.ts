@@ -15,7 +15,7 @@ authRoute.post(
 );
 authRoute.post('/login', tryCatch(authController.login.bind(authController)));
 
-authRoute.post('/loguot', tryCatch(authController.logout.bind(authController)));
+authRoute.get('/logout', tryCatch(authController.logout.bind(authController)));
 
 authRoute.get('/activate/:link', tryCatch(authController.activate.bind(authController)));
 
