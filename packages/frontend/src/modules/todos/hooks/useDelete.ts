@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { APP_KEYS } from '../../common/consts';
-import { removeTodo } from '../utils/fetch';
+import { removeTodo } from '../utils/fetch.todos';
 
 export const useDelete = (id: number) => {
   const queryClient = useQueryClient();

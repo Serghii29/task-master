@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { APP_KEYS } from '../../common/consts';
-import { ICreateTodo } from '../../common/types/todo.types';
-import { createNewTodo } from '../utils/fetch';
+import { ICreateTodo } from '../types/todo.types';
+import { createNewTodo } from '../utils/fetch.todos';
 
 export const useCreate = () => {
   const queryClient = useQueryClient();

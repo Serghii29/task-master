@@ -1,5 +1,5 @@
 import React from 'react';
-import { ITodo } from '../../../common/types/todo.types';
+import { ITodo } from '../../types/todo.types';
 import { Actions } from '../action';
 import { StyledTitle, StyledDescription, ElementContainer } from './mobile.styled';
 

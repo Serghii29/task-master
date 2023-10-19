@@ -1,5 +1,5 @@
 import { todoService } from '../services/todo.service';
-import { ICreateTodo, IUpdateTodo } from '../../common/types/todo.types';
+import { ICreateTodo, IUpdateTodo } from '../types/todo.types';
 
 export const fetchTodos = async () => {
   const { data } = await todoService.getAll();

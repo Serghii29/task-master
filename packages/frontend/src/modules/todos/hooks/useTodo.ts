@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { APP_KEYS } from '../../common/consts';
-import { fetchTodoById } from '../utils/fetch';
+import { fetchTodoById } from '../utils/fetch.todos';
 
 export const useTodo = (id: number) =>
   useQuery({

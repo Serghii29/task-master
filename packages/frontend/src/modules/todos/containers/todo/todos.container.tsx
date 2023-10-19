@@ -8,6 +8,8 @@ import { Tablet } from '../../components/tablet';
 import { Mobile } from '../../components/mobile';
 import { TodoTable } from '../../components/table';
 import { StyledTodoPage } from './todos.styled';
+import { HeaderComponent } from '../../../common/components/header';
+import { FilterAndSearchComponent } from '../../../common/components/filter-search';
 
 export const TodosContainer: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,36 +23,42 @@ export const TodosContainer: React.FC = () => {
   };
 
   return (
-    <StyledTodoPage>
-      <MediaQuery minWidth={BREAK_POINTS.tablet}>
-        <TodoTable />
-      </MediaQuery>
+    <>
+      <HeaderComponent />
 
-      <MediaQuery minWidth={BREAK_POINTS.mobile} maxWidth={BREAK_POINTS.tablet}>
-        <Tablet />
-      </MediaQuery>
+      <StyledTodoPage>
+        <FilterAndSearchComponent />
 
-      <MediaQuery maxWidth={BREAK_POINTS.mobile}>
-        <Mobile />
-      </MediaQuery>
+        <MediaQuery minWidth={BREAK_POINTS.tablet}>
+          <TodoTable />
+        </MediaQuery>
 
-      <Modal
-        open={isOpen}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <FormComponent add={true as boolean} id={undefined} handleClose={handleClose} />
-      </Modal>
+        <MediaQuery minWidth={BREAK_POINTS.mobile} maxWidth={BREAK_POINTS.tablet}>
+          <Tablet />
+        </MediaQuery>
 
-      <GreenHoverButton onClick={handleOpen} variant="outlined">
-        Add new Todo
-      </GreenHoverButton>
-    </StyledTodoPage>
+        <MediaQuery maxWidth={BREAK_POINTS.mobile}>
+          <Mobile />
+        </MediaQuery>
+
+        <Modal
+          open={isOpen}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <FormComponent add={true as boolean} id={undefined} handleClose={handleClose} />
+        </Modal>
+
+        <GreenHoverButton onClick={handleOpen} variant="outlined">
+          Add new Todo
+        </GreenHoverButton>
+      </StyledTodoPage>
+    </>
   );
 };

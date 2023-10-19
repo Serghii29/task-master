@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ITodo } from '../../../common/types/todo.types';
+import { ITodo } from '../../types/todo.types';
 import { useDelete } from '../../hooks/useDelete';
 import { useUpdate } from '../../hooks/useUpdate';
 import { ContainerDiv, GreenHoverButton, GreenSwitch } from './actions.styled';

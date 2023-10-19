@@ -1,5 +1,5 @@
-import { ICreateTodo, ITodo, IUpdateTodo } from '../../common/types/todo.types';
-import { HttpSerivce } from './http.service';
+import { ICreateTodo, ITodo, IUpdateTodo } from '../types/todo.types';
+import { HttpSerivce } from '../../common/services/http.service';
 
 class TodoService extends HttpSerivce {
   getAll() {

@@ -2,8 +2,8 @@ import { useFormik } from 'formik';
 import { useCreate } from '../hooks/useCreate';
 import { useTodo } from '../hooks/useTodo';
 import { useUpdate } from '../hooks/useUpdate';
-import { ICreateTodo, ITodo, IUpdateTodo } from '../../common/types/todo.types';
-import { addFormSchema, updateFormSchema } from './validatorForm';
+import { ICreateTodo, ITodo, IUpdateTodo } from '../types/todo.types';
+import { addFormSchema, updateFormSchema } from './validatorForm.todo';
 import { INITIAL_VALUE } from '../const/initial-values.const';
 
 export const createForm = (add: boolean, id?: number) => {

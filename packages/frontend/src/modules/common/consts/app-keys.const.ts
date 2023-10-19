@@ -30,5 +30,7 @@ export const ROUTER_KEYS = {
   ROOT: '/',
   HOME: 'home',
   AUTHORIZED: 'authorized',
-  TODO: 'todo'
+  TODO: 'todo',
+  FORGOT_PASSWORD: 'forgot-password',
+  MY_PROFILE: 'my-profile'
 };
