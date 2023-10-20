@@ -14,6 +14,7 @@ export const login = async (data: IUserLogin) => {
 };
 
 export const logout = async () => {
+  await localStorage.setItem(APP_KEYS.STORAGE_KEYS.TOKEN, '');
   await userService.logout();
 };
 
