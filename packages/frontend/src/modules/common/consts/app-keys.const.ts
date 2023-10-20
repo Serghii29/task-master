@@ -32,5 +32,6 @@ export const ROUTER_KEYS = {
   AUTHORIZED: 'authorized',
   TODO: 'todo',
   FORGOT_PASSWORD: 'forgot-password',
-  MY_PROFILE: 'my-profile'
+  MY_PROFILE: 'my-profile',
+  RECOVER_PASSPORT: 'recover-password'
 };

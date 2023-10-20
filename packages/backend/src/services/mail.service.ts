@@ -31,6 +31,23 @@ class MailService {
       `
     });
   }
+
+  async sendChangeLink(mail: string, link: string) {
+    const activateLink = `${process.env.SERVER_URL}/auth/change-link/${link}`;
+
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: mail,
+      subject: 'Recover your password',
+      text: '',
+      html: `
+        <div>
+          <h1>To recover your password, follow the link</h1>
+          <a href="${activateLink}">${activateLink}</a>
+        </div>
+      `
+    });
+  }
 }
 
 export const mailService = new MailService();

@@ -17,3 +17,8 @@ export const INITIAL_VALUE_CHANGE_PASSWORD = {
   old_password: '',
   new_password: ''
 };
+
+export const INITIAL_VALUE_RECOVER_PASSWORD = {
+  password: '',
+  confirm: ''
+};

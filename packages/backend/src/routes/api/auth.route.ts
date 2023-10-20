@@ -9,15 +9,20 @@ authRoute.post(
   '/registration',
   [
     body('email').isEmail(),
-    body('password', 'Password must be more than 6 characters').isLength({ min: 6 })
+    body('password', 'Password must be more than 8 characters').isLength({ min: 8 })
   ],
   tryCatch(authController.registration.bind(authController))
 );
 authRoute.post('/login', tryCatch(authController.login.bind(authController)));
 
-authRoute.get('/logout', tryCatch(authController.logout.bind(authController)));
+authRoute.post('/logout', tryCatch(authController.logout.bind(authController)));
 
 authRoute.get('/activate/:link', tryCatch(authController.activate.bind(authController)));
+
+authRoute.get(
+  '/change-link/:link',
+  tryCatch(authController.recoverPasswordLink.bind(authController))
+);
 
 authRoute.post(
   '/forgot-password',
@@ -26,7 +31,13 @@ authRoute.post(
 );
 
 authRoute.post(
-  'reset-password',
+  '/recover-password',
+  [body('email').isEmail()],
+  tryCatch(authController.recoverPassword.bind(authController))
+);
+
+authRoute.post(
+  '/reset-password',
   [body('email').isEmail()],
   tryCatch(authController.reset.bind(authController))
 );

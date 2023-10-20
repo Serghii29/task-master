@@ -90,31 +90,61 @@ export default class AuthSevices {
 
     const activationLink = uuidv4();
 
-    const tokens = tokenService.generateTokens(userDto);
+    await this.userRepository.update(user.id, { activationLink });
 
-    await tokenService.saveToken(user.id, tokens.refreshToken);
+    await mailService.sendChangeLink(email, activationLink);
 
-    await mailService.sendActivate(email, activationLink);
-
-    return { ...tokens, user: userDto };
+    return { userDto };
   }
 
-  async resetPassword(email: string, newPassword: string) {
-    const user = await this.userRepository.findOneBy({ email });
+  async recoverPassword(activationLink: string) {
+    const user = await this.userRepository.findOneBy({ activationLink });
+
+    if (!user) {
+      throw new Error('incorrect activation link');
+    }
+  }
+
+  async updatePassword(password: string, activationLink: string) {
+    const user = await this.userRepository.findOneBy({ activationLink });
 
     if (!user) {
       throw new Error('This user not found');
     }
 
+    const hashPassword = await argon.hash(password);
+
     const userDto = new UserDto(user);
 
     const tokens = tokenService.generateTokens(userDto);
 
+    await this.userRepository.update(user.id, { password: hashPassword });
+
     await tokenService.saveToken(user.id, tokens.refreshToken);
 
-    await this.userRepository.update(user.id, { password: newPassword });
-
     return { ...tokens, user: userDto };
+  }
+
+  async resetPassword(password: string, newPassword: string, refreshToken: string) {
+    const user = await this.userRepository.findOneBy({ refreshToken });
+
+    if (!user) {
+      throw new Error('This user not found');
+    }
+
+    const matchPassword = argon.verify(user.password, password);
+
+    if (!matchPassword) {
+      throw new Error('This password id not valid');
+    }
+
+    const hashPassword = await argon.hash(newPassword);
+
+    const userDto = new UserDto(user);
+
+    await this.userRepository.update(user.id, { password: hashPassword });
+
+    return { userDto };
   }
 }
 

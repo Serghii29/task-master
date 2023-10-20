@@ -14,3 +14,13 @@ export interface IUser {
   isActived: boolean;
   id: number;
 }
+
+export interface IChangePassword {
+  old_password: string;
+  new_password: string;
+}
+
+export interface IRecoverPassword {
+  password: string;
+  confirm: string;
+}

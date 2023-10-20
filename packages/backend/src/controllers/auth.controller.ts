@@ -54,6 +54,14 @@ class AuthController {
     res.redirect(process.env.CLIENT_URL);
   }
 
+  async recoverPasswordLink(req: Request, res: Response) {
+    const activateLink = req.params.link;
+
+    await this.authServices.recoverPassword(activateLink);
+
+    res.redirect(`${process.env.CLIENT_URL}/${process.env.CHANGE_ROUTE}/${activateLink}`);
+  }
+
   async forgotPassword(req: Request, res: Response) {
     const errors = validationResult(req);
 
@@ -65,23 +73,35 @@ class AuthController {
 
     const userData = await this.authServices.forgotPassword(email);
 
-    res.cookie('refreshToken', userData.refreshToken, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: true
-    });
+    res.status(201).json(userData);
+  }
+
+  async recoverPassword(req: Request, res: Response) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors });
+    }
+
+    const { password } = req.body;
+    const activateLink = req.params.link;
+
+    const userData = await this.authServices.updatePassword(password, activateLink);
 
     res.status(201).json(userData);
   }
 
   async reset(req: Request, res: Response) {
-    const { email, newPassword } = req.body;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { old_password, new_password } = req.body;
 
-    const userData = await this.authServices.resetPassword(email, newPassword);
+    const { refreshToken } = req.cookies;
 
-    res.cookie('refreshToken', userData.refreshToken, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: true
-    });
+    const userData = await this.authServices.resetPassword(
+      old_password,
+      new_password,
+      refreshToken
+    );
 
     res.status(201).json(userData);
   }

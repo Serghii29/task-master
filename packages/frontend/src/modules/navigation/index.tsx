@@ -5,6 +5,7 @@ import Auth from './pages/auth';
 import { ForgotPasswordPage } from './pages/forgot-password';
 import HomePageContainer from './pages/home';
 import { MyProfilePage } from './pages/my-profile';
+import { RecoverPasswordPage } from './pages/recover-password';
 import Todo from './pages/todo';
 
 export const MainRouter = () => (
@@ -18,6 +19,10 @@ export const MainRouter = () => (
         element={<ForgotPasswordPage />}
       />
       <Route path={APP_KEYS.ROUTER_KEYS.MY_PROFILE} element={<MyProfilePage />} />
+      <Route
+        path={`${APP_KEYS.ROUTER_KEYS.AUTHORIZED}/${APP_KEYS.ROUTER_KEYS.RECOVER_PASSPORT}/:link`}
+        element={<RecoverPasswordPage />}
+      />
     </Routes>
   </BrowserRouter>
 );

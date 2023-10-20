@@ -15,6 +15,7 @@ declare global {
       SMTP_PASSWORD: string;
       SERVER_URL: string;
       CLIENT_URL: string;
+      CHANGE_ROUTE: string;
     }
   }
 }

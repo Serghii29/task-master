@@ -8,7 +8,7 @@ import { FormPosition, Title, FormContainer, QuestionContainer } from './auth.st
 import { APP_KEYS } from '../../../common/consts';
 
 export const AuthComponent: React.FC = React.memo(() => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const navigate = useNavigate();
 
@@ -59,7 +59,7 @@ export const AuthComponent: React.FC = React.memo(() => {
               id="confirm"
               name="confirm"
               label="Confirm password"
-              type="confirm"
+              type="password"
               value={values.confirm}
               onChange={handleChange}
               onBlur={handleBlur}

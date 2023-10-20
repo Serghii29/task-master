@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { APP_KEYS } from '../consts';
 
 interface HttpResponse<T> {
   data: T;
@@ -48,9 +49,24 @@ export class HttpSerivce {
     });
   }
 
+  private addAuthorizationHeader(config?: AxiosRequestConfig) {
+    const token = localStorage.getItem(APP_KEYS.STORAGE_KEYS.TOKEN) || '';
+    const requestConfig = {
+      ...(config || {}),
+      headers: {
+        ...(config?.headers || {}),
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    return requestConfig;
+  }
+
   public async get<T>(url: string, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
     const fullUrl = this.getFullApiUrl(url);
-    const response = await this.axiosInstance.get<T>(fullUrl, config);
+    const requestConfig = this.addAuthorizationHeader(config);
+
+    const response = await this.axiosInstance.get<T>(fullUrl, requestConfig);
     return this.handleResponse<T>(response);
   }
 
@@ -60,7 +76,10 @@ export class HttpSerivce {
     config?: AxiosRequestConfig
   ): Promise<HttpResponse<T>> {
     const fullUrl = this.getFullApiUrl(url);
-    const response = await this.axiosInstance.post<T>(fullUrl, data, config);
+
+    const requestConfig = this.addAuthorizationHeader(config);
+
+    const response = await this.axiosInstance.post<T>(fullUrl, data, requestConfig);
 
     return this.handleResponse<T>(response);
   }
@@ -71,14 +90,20 @@ export class HttpSerivce {
     config?: AxiosRequestConfig
   ): Promise<HttpResponse<T>> {
     const fullUrl = this.getFullApiUrl(url);
-    const response = await this.axiosInstance.put<T>(fullUrl, data, config);
+
+    const requestConfig = this.addAuthorizationHeader(config);
+
+    const response = await this.axiosInstance.put<T>(fullUrl, data, requestConfig);
 
     return this.handleResponse<T>(response);
   }
 
   public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
     const fullUrl = this.getFullApiUrl(url);
-    const response = await this.axiosInstance.delete<T>(fullUrl, config);
+
+    const requestConfig = this.addAuthorizationHeader(config);
+
+    const response = await this.axiosInstance.delete<T>(fullUrl, requestConfig);
 
     return this.handleResponse<T>(response);
   }
