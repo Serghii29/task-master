@@ -1,4 +1,6 @@
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { APP_KEYS } from '../../common/consts';
 import {
   INITIAL_VALUE_AUTH,
   INITIAL_VALUE_LOGIN,
@@ -6,7 +8,7 @@ import {
   INITIAL_VALUE_CHANGE_PASSWORD,
   INITIAL_VALUE_RECOVER_PASSWORD
 } from '../const/initial-user.const';
-import { IUserCreate, IUserLogin } from '../types/user.type';
+import { IChangePassword, IUserCreate, IUserLogin } from '../types/user.type';
 import { changePassword, forgotPassport, login, recoverPassword, registration } from './fetch.user';
 import {
   authSchema,
@@ -21,12 +23,16 @@ export const userForm = (isLogin: boolean) => {
 
   const initialValues = isLogin ? INITIAL_VALUE_LOGIN : INITIAL_VALUE_AUTH;
 
+  const navigate = useNavigate();
+
   const handleLogin = (data: IUserLogin) => {
     login(data);
+    navigate(APP_KEYS.ROUTER_KEYS.ROOT);
   };
 
   const handleRegistration = (data: IUserCreate) => {
     registration(data);
+    window.location.reload();
   };
 
   const formik = useFormik({
@@ -65,10 +71,17 @@ export const recoverForm = () => {
 };
 
 export const profileForm = () => {
+  const navigate = useNavigate();
+
+  const handleChangePassword = (data: IChangePassword) => {
+    changePassword(data);
+    navigate(`/${APP_KEYS.ROUTER_KEYS.AUTHORIZED}`);
+  };
+
   const formik = useFormik({
     initialValues: INITIAL_VALUE_CHANGE_PASSWORD,
     validationSchema: changeSchema,
-    onSubmit: (values) => changePassword(values)
+    onSubmit: (values) => handleChangePassword(values)
   });
 
   return formik;

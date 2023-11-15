@@ -15,6 +15,7 @@ export const HeaderComponent: React.FC = React.memo(() => {
 
   const handleLogout = () => {
     logout();
+    window.location.reload();
   };
 
   return (

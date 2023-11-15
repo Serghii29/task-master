@@ -3,12 +3,13 @@ import { userService } from '../services/user.service';
 import { IChangePassword, IRecoverPassword, IUserCreate, IUserLogin } from '../types/user.type';
 
 export const registration = async (data: IUserCreate) => {
-  const user = await userService.registration(data);
-  localStorage.setItem(APP_KEYS.STORAGE_KEYS.TOKEN, user.data.accessToken);
+  await userService.registration(data);
 };
 
 export const login = async (data: IUserLogin) => {
   const user = await userService.login(data);
+
+  localStorage.setItem(APP_KEYS.STORAGE_KEYS.TOKEN, user.data.accessToken);
 
   return user;
 };

@@ -1,13 +1,21 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { APP_KEYS } from '../consts';
 
-export const ProtectedRoute: React.FC = () => {
+type Props = {
+  children: JSX.Element;
+};
+
+export const ProtectedRoute: React.FC<Props> = ({ children }) => {
   const token = localStorage.getItem(APP_KEYS.STORAGE_KEYS.TOKEN);
 
-  if (!token) {
-    return <Navigate to={APP_KEYS.ROUTER_KEYS.AUTHORIZED} replace />;
-  }
+  const navigate = useNavigate();
 
-  return <Outlet />;
+  useEffect(() => {
+    if (!token) {
+      navigate(`/${APP_KEYS.ROUTER_KEYS.AUTHORIZED}`);
+    }
+  });
+
+  return children;
 };

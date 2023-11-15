@@ -22,12 +22,34 @@ export const MainRouter = () => (
         path={`${APP_KEYS.ROUTER_KEYS.AUTHORIZED}/${APP_KEYS.ROUTER_KEYS.FORGOT_PASSWORD}`}
         element={<ForgotPasswordPage />}
       />
-      <Route element={<ProtectedRoute />}>
-        <Route path={APP_KEYS.ROUTER_KEYS.ROOT} element={<HomePageContainer />} />
-        <Route path={`/${APP_KEYS.ROUTER_KEYS.TODO}/:id`} element={<Todo />} />
-        <Route path={APP_KEYS.ROUTER_KEYS.MY_PROFILE} element={<MyProfilePage />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Route>
+      <Route path="*" element={<ErrorPage />} />
+
+      <Route
+        path={APP_KEYS.ROUTER_KEYS.ROOT}
+        element={
+          <ProtectedRoute>
+            <HomePageContainer />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path={`/${APP_KEYS.ROUTER_KEYS.TODO}/:id`}
+        element={
+          <ProtectedRoute>
+            <Todo />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path={APP_KEYS.ROUTER_KEYS.MY_PROFILE}
+        element={
+          <ProtectedRoute>
+            <MyProfilePage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   </BrowserRouter>
 );
